@@ -2,12 +2,14 @@ from flask import Flask
 from flask import render_template, request, redirect, jsonify
 from collections import Counter
 
-app = Flask(__name__)
 
 NAMES = [
     'i', 'you', 'he', 'we', 'youpl', 'they', 'this', 'that', 'here', 'there',
     'lang', 'sex'
 ]
+
+app = Flask(__name__)
+
 
 @app.route('/')
 def form():
@@ -26,6 +28,7 @@ def write():
 
     return redirect('/')
 
+
 @app.route('/json')
 def json_page():
     with open('data.csv', encoding='utf-8') as f:
@@ -37,6 +40,7 @@ def json_page():
 
     return jsonify(res)
 
+
 @app.route('/search')
 def search():
     with open('data.csv', encoding='utf-8') as f:
@@ -46,7 +50,8 @@ def search():
     word = request.args.get('word', '')
     sex = request.args.getlist('sex')
     sex_i = NAMES.index('sex')
-    res = [r for r in res if r[sex_i] in sex and any(word in w for w in r[:10])]
+    res = [
+        r for r in res if r[sex_i] in sex and any(word in w for w in r[:10])]
     return render_template('search.html', results=res)
 
 
@@ -57,11 +62,19 @@ def stats():
     res = [line.split('\t') for line in table.split('\n')]
     words = [word for line in res for word in line[:10] if word]
 
+    sex_i = NAMES.index('sex')
+    lang_i = NAMES.index('lang')
+
     ctr = Counter(words)
     return render_template(
         'stats.html',
-         ctr=sorted(ctr.most_common(20), key=lambda x: (-x[1], x[0])),
-         total=len(words))
+        ctr=sorted(ctr.most_common(20), key=lambda x: (-x[1], x[0])),
+        total=len(words),
+        male=len([r for r in res if r[sex_i] == 'male']),
+        female=len([r for r in res if r[sex_i] == 'female']),
+        langs=', '.join(
+            sorted(list(set(r[lang_i] for r in res if r[lang_i]))))
+    )
 
 
 if __name__ == '__main__':
