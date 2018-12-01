@@ -1,0 +1,24 @@
+<style type="text/css">
+TABLE {
+ border: 4px solid #000;
+}
+TD, TH {
+ padding: 5px;
+ border: 1px solid black;
+</style>
+
+Количество слов в системе: {{ total }}</br>
+
+<table>
+  Самые популярные слова:
+  <tr>
+    <th>Слово</th><th>Количество</th>
+  </tr>
+  {% for row in ctr %}
+    <tr>
+      {% for col in row %}
+        <td>{{ col }}</td>
+      {% endfor %}
+    </tr>
+  {% endfor %}
+</table>

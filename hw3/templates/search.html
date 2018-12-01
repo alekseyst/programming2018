@@ -1,0 +1,31 @@
+<style type="text/css">
+TABLE {
+ border: 4px solid #000;
+}
+TD, TH {
+ padding: 5px;
+ border: 1px solid black;
+</style>
+
+
+Поиск
+<p><form action="/search">
+    <p>Слово (поиск по всем словам): <input type="text" name="word"><Br>
+    <p>Пол:
+       <input type="checkbox" name="sex" value="male" checked>Мужской
+       <input type="checkbox" name="sex" value="female" checked>Женский<br>
+    <p><input type="submit" value="Отправить"></p>
+</form>
+
+<table>
+  <tr>
+    <th>i</th><th>you</th><th>he</th><th>we</th><th>you</th><th>they</th><th>this</th><th>that</th><th>here</th><th>there</th><th>lang</th><th>sex</th>
+  </tr>
+  {% for row in results %}
+    <tr>
+      {% for col in row %}
+        <td>{{ col }}</td>
+      {% endfor %}
+    </tr>
+  {% endfor %}
+</table>
