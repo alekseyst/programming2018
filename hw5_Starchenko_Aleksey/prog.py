@@ -81,10 +81,14 @@ def form():
         pages[id_] = {'title': title, 'text': value, 'url': url}
 
     results = []
+    used_pages = set()
     for page_id, position in sorted(words):
+        if page_id in used_pages:
+            continue
+        used_pages.add(page_id)
         page = pages[page_id]
         results.append({
-            'text': page['text'][max(0, position - 120):position + 120],
+            'text': page['text'][max(0, position - 200):position + 200],
             'title': page['title'],
             'url': page['url'],
         })
