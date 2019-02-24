@@ -41,7 +41,8 @@ def parse_text(path, stemmer):
 
 def get_texts(prefix):
     texts = []
-    with open(os.path.join(prefix, 'metadata.csv')) as metadata_file:
+    path = os.path.join(prefix, 'metadata.csv')
+    with open(path, encoding='utf-8') as metadata_file:
         for line in metadata_file:
             line = line.strip().split('\t')
             path, title, *other, lang = [a for a in line if a]
