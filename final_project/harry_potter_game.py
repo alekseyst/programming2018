@@ -19,7 +19,7 @@ import flask
 import conf
 
 
-WEBHOOK_HOST = 'hpgame552.herokuapp.com'
+WEBHOOK_HOST = 'hpgame5552.herokuapp.com'
 WEBHOOK_PORT = 443  # 443, 80, 88 or 8443 (port need to be 'open')
 WEBHOOK_URL_BASE = "https://{}:{}".format(WEBHOOK_HOST, WEBHOOK_PORT)
 WEBHOOK_URL_PATH = "/{}/".format(conf.TOKEN)
@@ -244,7 +244,7 @@ bot.load_next_step_handlers()
 
 app = flask.Flask(__name__)
 
-   
+
 @app.route('/', methods=['GET', 'HEAD'])
 def index():
     return 'ok'
