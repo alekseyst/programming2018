@@ -28,7 +28,7 @@ logging.info("HEROKU: %s", str(HEROKU))
 WEBHOOK_HOST = 'hpgame552.herokuapp.com'
 # 443, 80, 88 or 8443 (port need to be 'open')
 WEBHOOK_PORT = int(os.getenv('PORT', 5000)) if HEROKU else 8433
-WEBHOOK_URL_BASE = "https://{}".format(WEBHOOK_HOST, WEBHOOK_PORT)
+WEBHOOK_URL_BASE = "https://{}".format(WEBHOOK_HOST)
 WEBHOOK_URL_PATH = "/{}/".format(conf.TOKEN)
 WEBHOOK_LISTEN = '0.0.0.0'  # In some VPS you may need to put here the IP addr
 WEBHOOK_SSL_CERT = './webhook_cert.pem'  # Path to the ssl certificate
