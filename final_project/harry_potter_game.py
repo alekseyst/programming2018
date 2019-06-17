@@ -6,22 +6,29 @@ import json
 import random
 import re
 import time
+import os
+import logging
 
 import markovify
-import telebot
 from telebot.types import (
     ReplyKeyboardMarkup,
     InlineKeyboardButton,
     ReplyKeyboardRemove,
 )
+import telebot
 import flask
 
 import conf
 
+logging.basicConfig(level=logging.DEBUG)
 
-WEBHOOK_HOST = 'aqueous-beyond-40242.herokuapp.com'
-WEBHOOK_PORT = 8443  # 443, 80, 88 or 8443 (port need to be 'open')
-WEBHOOK_URL_BASE = "https://{}:{}".format(WEBHOOK_HOST, WEBHOOK_PORT)
+HEROKU = "HEROKU" in list(os.environ.keys())
+logging.info("HEROKU: %s", str(HEROKU))
+
+WEBHOOK_HOST = 'hpgame552.herokuapp.com'
+# 443, 80, 88 or 8443 (port need to be 'open')
+WEBHOOK_PORT = int(os.getenv('PORT', 5000)) if HEROKU else 8433
+WEBHOOK_URL_BASE = "https://{}".format(WEBHOOK_HOST, WEBHOOK_PORT)
 WEBHOOK_URL_PATH = "/{}/".format(conf.TOKEN)
 WEBHOOK_LISTEN = '0.0.0.0'  # In some VPS you may need to put here the IP addr
 WEBHOOK_SSL_CERT = './webhook_cert.pem'  # Path to the ssl certificate
@@ -49,9 +56,9 @@ RESULTS_MESSAGE_TEXT = """\
 Введите /play, чтобы сыграть ещё."""
 
 
-telebot.apihelper.proxy = {
-    'https': 'socks5h://geek:socks@t.geekclass.ru:7777'
-}
+# telebot.apihelper.proxy = {
+#     'https': 'socks5h://geek:socks@t.geekclass.ru:7777'
+# }
 
 
 def load_model(sentences):
@@ -233,17 +240,13 @@ def play(message):
 
 
 bot.remove_webhook()
-time.sleep(0.1)
-bot.set_webhook(
-    url=WEBHOOK_URL_BASE + WEBHOOK_URL_PATH)
-    # certificate=open(WEBHOOK_SSL_CERT, 'r'))
 
 bot.enable_save_next_step_handlers(delay=2)
 bot.load_next_step_handlers()
 
 
 app = flask.Flask(__name__)
-
+app.config['DEBUG'] = True
 
 @app.route('/', methods=['GET', 'HEAD'])
 def index():
@@ -260,9 +263,16 @@ def webhook():
     return ''
 
 
+if HEROKU:
+    time.sleep(0.1)
+    bot.set_webhook(
+        url=WEBHOOK_URL_BASE + WEBHOOK_URL_PATH)
+
+
 if __name__ == '__main__':
-    app.run(
-        host=WEBHOOK_LISTEN,
-        port=WEBHOOK_PORT,
-        # ssl_context=(WEBHOOK_SSL_CERT, WEBHOOK_SSL_PRIV),
-        debug=True)
+    if HEROKU:
+        app.run(
+            host=WEBHOOK_LISTEN,
+            port=WEBHOOK_PORT)
+    else:
+        bot.polling(none_stop=True)
