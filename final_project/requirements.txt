@@ -1,0 +1,17 @@
+certifi==2019.6.16
+chardet==3.0.4
+Click==7.0
+Flask==1.0.3
+idna==2.8
+itsdangerous==1.1.0
+Jinja2==2.10.1
+markovify==0.7.1
+MarkupSafe==1.1.1
+PySocks==1.7.0
+pyTelegramBotAPI==3.6.6
+requests==2.22.0
+six==1.12.0
+telebot==0.0.3
+Unidecode==1.1.0
+urllib3==1.25.3
+Werkzeug==0.15.4
