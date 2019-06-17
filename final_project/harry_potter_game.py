@@ -19,8 +19,8 @@ import flask
 import conf
 
 
-WEBHOOK_HOST = 'git.heroku.com/aqueous-beyond-40242.git'
-WEBHOOK_PORT = 443  # 443, 80, 88 or 8443 (port need to be 'open')
+WEBHOOK_HOST = 'aqueous-beyond-40242.herokuapp.com'
+WEBHOOK_PORT = 8443  # 443, 80, 88 or 8443 (port need to be 'open')
 WEBHOOK_URL_BASE = "https://{}:{}".format(WEBHOOK_HOST, WEBHOOK_PORT)
 WEBHOOK_URL_PATH = "/{}/".format(conf.TOKEN)
 WEBHOOK_LISTEN = '0.0.0.0'  # In some VPS you may need to put here the IP addr
