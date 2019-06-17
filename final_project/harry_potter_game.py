@@ -19,8 +19,8 @@ import flask
 import conf
 
 
-WEBHOOK_HOST = '<ip/host where the bot is running>'
-WEBHOOK_PORT = 8443  # 443, 80, 88 or 8443 (port need to be 'open')
+WEBHOOK_HOST = 'hpgame552.herokuapp.com'
+WEBHOOK_PORT = 443  # 443, 80, 88 or 8443 (port need to be 'open')
 WEBHOOK_URL_BASE = "https://{}:{}".format(WEBHOOK_HOST, WEBHOOK_PORT)
 WEBHOOK_URL_PATH = "/{}/".format(conf.TOKEN)
 WEBHOOK_LISTEN = '0.0.0.0'  # In some VPS you may need to put here the IP addr
@@ -235,8 +235,8 @@ def play(message):
 bot.remove_webhook()
 time.sleep(0.1)
 bot.set_webhook(
-    url=WEBHOOK_URL_BASE + WEBHOOK_URL_PATH,
-    certificate=open(WEBHOOK_SSL_CERT, 'r'))
+    url=WEBHOOK_URL_BASE + WEBHOOK_URL_PATH)
+    # certificate=open(WEBHOOK_SSL_CERT, 'r'))
 
 bot.enable_save_next_step_handlers(delay=2)
 bot.load_next_step_handlers()
@@ -264,5 +264,5 @@ if __name__ == '__main__':
     app.run(
         host=WEBHOOK_LISTEN,
         port=WEBHOOK_PORT,
-        ssl_context=(WEBHOOK_SSL_CERT, WEBHOOK_SSL_PRIV),
+        # ssl_context=(WEBHOOK_SSL_CERT, WEBHOOK_SSL_PRIV),
         debug=True)
